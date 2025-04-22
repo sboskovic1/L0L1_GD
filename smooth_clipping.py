@@ -5,7 +5,7 @@ def smoothed_clipping(f, g, x0, xstar, l0, l1, epsilon, iters):
     error = []
     x = x0
     error.append((0, np.linalg.norm(x - xstar)))
-    eta = 0.28356
+    eta = 0.28356 / 5
     i = 1
     while i < iters and error[-1][1] > epsilon:
         grad = g(x)

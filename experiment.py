@@ -12,9 +12,12 @@ def main():
     iters = 1000
     results = runl0l1(sc.smoothed_clipping, data, epsilon, iters)
     plt.plot([x[0] for x in results[0]], [x[1] for x in results[0]], label="smoothed clipping")
+    print("final error for smoothed: ", results[0][-1][1], " in ", results[0][-1][0], " iterations")
     data[0][4] = data[0][0](data[0][2])
     results = runL(gd.gd, data, epsilon, iters)
     plt.plot([x[0] for x in results[0]], [x[1] for x in results[0]], label="gradient descent")
+    print("final error for gradient descent: ", results[0][-1][1], " in ", results[0][-1][0], " iterations")
+    plt.legend()
     print("final error: ", results[0][-1][1])
     plt.xlabel("Iterations")
     plt.ylabel("Error")
