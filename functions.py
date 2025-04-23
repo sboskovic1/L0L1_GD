@@ -23,3 +23,33 @@ def exp1():
     params.append(0.1)
     params.append(3.1)
     return params
+
+def cquad_func():
+    params = []
+    params.append(lambda x: x**2)
+    params.append(lambda x: 2*x)
+    params.append(2.0)
+    params.append(0.0)
+    params.append(0.1)
+    params.append(0.5)
+    return params
+
+def rosenbrock():
+    params = []
+    params.append(lambda x: 100*(1-x)**2 + x**2)
+    params.append(lambda x: 2*x - 200*(1-x))
+    params.append(0.0)
+    params.append(1.0)
+    params.append(2.0)
+    params.append(200.0)
+    return params
+
+def plateau():
+    params = []
+    params.append(lambda x: x**4)
+    params.append(lambda x: 4*(x**3))
+    params.append(2.0)
+    params.append(0.0)
+    params.append(0.01)
+    params.append(10.0)
+    return params
