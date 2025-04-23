@@ -7,7 +7,7 @@ def normalized_gd(f, g, x0, xstar, l0, l1, epsilon, iters):
     x = x0
     error.append((0, np.linalg.norm(x - xstar)))
 
-    # Using similar formula as in the papers you're studying
+    # Let's hope I nailed the formula
     eta = 1 / (2 * (l0 + l1))  # Constant step size. This is correct, right?
     i = 1
     while i < iters and error[-1][1] > epsilon:
