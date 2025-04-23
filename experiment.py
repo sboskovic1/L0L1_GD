@@ -5,6 +5,9 @@ import smooth_clipping as sc
 import gradient_descent as gd
 
 def main():
+    stefan()
+
+def stefan():
     print("starting experiment")
     data = []
     data.append(functions.exp1())
