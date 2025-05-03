@@ -15,8 +15,8 @@ def norm2(A, y):
     params['g'] = lambda x: 2 * A.T @ (A @ x - y)
     params['gnorm'] = lambda x: np.linalg.norm(params['g'](x))
     params['x0'] = np.zeros(y.shape[0])
-    params['L'] = np.linalg.norm(2 * A.T @ A)
-    params['L0'] = np.linalg.norm(2 * A.T @ A)
+    params['L'] = np.linalg.norm(2 * A.T @ A, ord=2)
+    params['L0'] = np.linalg.norm(2 * A.T @ A, ord=2)
     params['L1'] = 0
     params['xstar'] = np.linalg.lstsq(A, y, rcond=None)[0]
     return params
