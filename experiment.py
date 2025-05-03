@@ -5,6 +5,7 @@ import smooth_clipping as sc
 import gradient_descent as gd
 import normalized_gd as ngd
 import functiongraphs as fg
+import adaptivegd as adgd
 
 def main():
     stefan()
