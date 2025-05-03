@@ -23,6 +23,6 @@ def gd(f, g, x0, xstar, l, epsilon, iters):
             diverge = 0
         error.append((i, np.linalg.norm(f(x) - f(xstar))))
         i += 1
-    if diverged:
-        error[0] = ("diverged", i)
+    # if diverged:
+    #     error[0] = ("diverged", i)
     return error

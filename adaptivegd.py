@@ -45,6 +45,8 @@ def adgd(grad_f, x0, lambda0, gamma, max_iter, f=None, x_star=None, tol=10e-10):
 
 
     for k in range(1, max_iter):
+        if (error[-1][1] < tol) and (x_star is not None):
+            break
         grad_x_curr = grad_f(x_curr)
 
 

@@ -13,7 +13,7 @@ def normalized_gd(f, g, x0, xstar, l0, l1, epsilon, iters):
     while i < iters and error[-1][1] > epsilon:
         grad = g(x)
         # Do not divide by zero!
-        if np.linalg.norm(grad) < 1e-10:
+        if np.linalg.norm(grad) < epsilon:
             break
         # Normalize the gradient: grad / ||grad||
         normalized_grad = grad / np.linalg.norm(grad)
