@@ -20,7 +20,30 @@ def norm2(A, y):
     params['L1'] = 0
     params['xstar'] = np.linalg.lstsq(A, y, rcond=None)[0]
     return params
+    
+def norm_power(n, dim=2):
+    params = {}
+    params['f'] = lambda x: np.linalg.norm(x)**(2 * n)
+    params['g'] = lambda x: 2 * n * np.linalg.norm(x)**(2 * n - 2) * x if np.linalg.norm(x) != 0 else np.zeros_like(x)
+    params['gnorm'] = lambda x: np.linalg.norm(params['g'](x))
+    params['x0'] = np.ones(dim)  # or use [1.0, -1.0] if specific init desired
+    params['L0'] = 2 * n
+    params['L1'] = max(2 * n - 1, 0)
+    params['xstar'] = np.zeros(dim)
+    return params
 
+def exp_inner(a):
+    params = {}
+    params['f'] = lambda x: np.exp(np.dot(a, x))
+    params['g'] = lambda x: np.exp(np.dot(a, x)) * a
+    params['gnorm'] = lambda x: np.linalg.norm(params['g'](x))
+    params['x0'] = np.zeros_like(a)
+    params['L0'] = 0
+    params['L1'] = np.linalg.norm(a)
+    # Note: Since exp(dot(a, x)) has no finite minimum without constraints, we define a surrogate "xstar"
+    params['xstar'] = np.array([-25.0] * len(a))  # Or use a projection method if appropriate
+    return params
+    
 def norm4(A, y):
     params = {}
     params['f'] = lambda x: np.linalg.norm(A @ x - y)**4
