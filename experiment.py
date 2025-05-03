@@ -99,5 +99,60 @@ def cyrus():
     plt.title("Comparison of Optimization Methods")
     plt.show()
 
+
+def runadgd():
+  y = np.array([1,-1])
+
+  problems = {
+      "norm4": functions.norm_power(5),
+      "exp_inner": functions.exp_inner(np.array([5,5]))
+  }
+
+  gamma = 0.25
+  max_iter = 200
+  results = {}
+
+  for name, p in problems.items():
+      f, grad_f, x0, x_star = p['f'], p['g'], p['x0'], p['xstar']
+      lambda0 = 0.01
+      x_k, f_err, lambda_lst, D_sq, theta, f, x_star = adgd(grad_f, x0, lambda0, gamma, max_iter, f, x_star)
+      grad_err = gd(f, grad_f, x0, x_star, 90, 1e-6, max_iter)
+      x = np.array(x_k)
+      len_graph = len(f_err)
+
+      w = np.array([lambda_lst[k] * (1 + theta[k]) - lambda_lst[k + 1] * theta[k + 1] for k in range(1, len_graph - 2)])
+      X_N_lst = []
+      for i in range(1, len(w)):
+          S_N = lambda_lst[1] * theta[1] + np.sum(lambda_lst[:i + 1])
+          x_n_add = 1 / S_N * (lambda_lst[i] * (1 + theta[i]) + w[:i + 1] @ x[:i + 1])
+          X_N_lst.append(x_n_add)
+
+      diff_x_n_x_star_lst = [f(i) - f(x_star) for i in X_N_lst]
+
+      L0, L1 = p['L0'], p['L1']
+      D = np.sqrt(D_sq)
+      nu = 0.567
+      m = 1 + math.log(math.ceil(1 + L1 * D * math.e**(2 * L1 * D) / 2)) / math.log(math.sqrt(2))
+      K = 2 * L1**2 * D_sq / (nu**2)
+      bound_25_num = L0 * (2 + L1 * math.e**(L1 * D)) * math.e**(math.sqrt(2) * L1 * D) * D_sq
+      bound_26_num = 2 * L0 * D_sq
+      bound_25_lst = [bound_25_num / i for i in range(1, len_graph)]
+      bound_26_lst = [
+          bound_26_num / (nu * (i - m * K) - math.sqrt(2 * i) * (m + 1) * L1 * D)
+          for i in range(1, len_graph)
+      ]
+      print(' bound constant ', (2 * m *K + 4*(m+1) * L1 *D/nu)**2)
+
+      # Plot
+      plt.figure(figsize=(10, 6))
+      N_vals = np.arange(1, len_graph + 1)
+      plt.plot(N_vals, f_err, label='AdGD: $f(x_k) - f(x^*)$')
+      plt.plot(N_vals[:-1], grad_err, label='GD: $f(x_k) - f(x^*)$')
+      plt.title(f'AdGD Convergence - {name}')
+      plt.xlabel('Iteration N')
+      plt.ylabel('$f(x_N) - f(x^*)$')
+      plt.legend()
+      plt.grid(True)
+      plt.show()
 if __name__ == "__main__":
     main()
