@@ -3,15 +3,15 @@ import matplotlib.pyplot as plt
 import numpy as np
 import generator as gen
 
-def experiment(func, runs=10):
+def experiment(func, runs=10, n=100):
     epsilon = 10e-6
-    iters = 1000
-    n = 10
+    iters = 30000
     data = {}
     data['gd'] = []
     data['ngd'] = []
     data['sc'] = []
     data['gd_safe'] = []
+    data['agd'] = []
     div = []
     div_safe = []
     safety = 100
@@ -34,6 +34,7 @@ def experiment(func, runs=10):
             data['gd_safe'].append(next['gd_safe'])
         data['ngd'].append(next['ngd'])
         data['sc'].append(next['sc'])
+        data['agd'].append(next['agd'])
     averages = {}
     for key, nested_lists in data.items():
         index_values = {}
@@ -45,12 +46,13 @@ def experiment(func, runs=10):
                     index_values[idx].append(val)
         averages[key] = [sum(index_values[idx]) / len(index_values[idx]) 
                         for idx in sorted(index_values.keys())]
-    plt.yscale('log')
-    plt.xscale('log')
-    plt.plot(averages['gd'], label="Gradient Descent")
-    plt.plot(averages['ngd'], label="Normalized Gradient Descent")
+    # plt.yscale('log')
+    # plt.xscale('log')
+    # plt.plot(averages['gd'], label="Gradient Descent")
+    # plt.plot(averages['ngd'], label="Normalized Gradient Descent")
     plt.plot(averages['sc'], label="Smoothed Clipping")
-    plt.plot(averages['gd_safe'], label="GD with higher L")
+    # plt.plot(averages['gd_safe'], label="GD with higher L")
+    # plt.plot(averages['agd'], label="Adaptive GD")
     plt.legend(fontsize=8)
     plt.xlabel("Iterations")
     plt.ylabel("Error")
@@ -61,7 +63,7 @@ def experiment(func, runs=10):
     return
 
 def main():
-    experiment(gen.exp, 10)
+    experiment(gen.norm4, 1, 5)
     return
 
 if __name__ == "__main__":

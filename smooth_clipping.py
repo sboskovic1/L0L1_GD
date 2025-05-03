@@ -15,4 +15,5 @@ def smoothed_clipping(f, g, x0, xstar, l0, l1, epsilon, iters):
         x = x - (eta / (l0 + l1 * np.linalg.norm(grad))) * grad
         error.append((i, np.linalg.norm(x - xstar)))
         i += 1
+    print("final error: ", error[-1][1])
     return error

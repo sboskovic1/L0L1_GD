@@ -44,16 +44,29 @@ def exp_inner(a):
     params['xstar'] = np.array([-25.0] * len(a))  # Or use a projection method if appropriate
     return params
     
-def norm4(A, y):
+# def norm4(A, y):
+#     params = {}
+#     params['f'] = lambda x: np.linalg.norm(A @ x - y)**4
+#     params['g'] = lambda x: 4 * np.linalg.norm(A @ x - y)**2 * A.T @ (A @ x - y)
+#     params['gnorm'] = lambda x: np.linalg.norm(params['g'](x))
+#     params['x0'] = np.zeros(y.shape[0])
+#     params['L'] = max(params['gnorm'](params['x0']), params['gnorm'](params['x0'] * -1))
+#     params['L0'] = 4
+#     params['L1'] = 3
+#     params['xstar'] = np.linalg.lstsq(A, y, rcond=None)[0]
+#     return params   
+
+def norm4(A, y, x0=None):
     params = {}
-    params['f'] = lambda x: np.linalg.norm(A @ x - y)**4
-    params['g'] = lambda x: 4 * np.linalg.norm(A @ x - y)**2 * A.T @ (A @ x - y)
+    params['f'] = lambda x: np.linalg.norm(x)**4
+    params['g'] = lambda x: 4 * np.linalg.norm(x)**2 * x
     params['gnorm'] = lambda x: np.linalg.norm(params['g'](x))
-    params['x0'] = np.zeros(y.shape[0])
+    params['x0'] = np.zeros(y.shape[0]) if x0 is None else x0
+    print("x0:", params['x0'])
     params['L'] = max(params['gnorm'](params['x0']), params['gnorm'](params['x0'] * -1))
-    params['L0'] = 4
+    params['L0'] = 12
     params['L1'] = 3
-    params['xstar'] = np.linalg.lstsq(A, y, rcond=None)[0]
+    params['xstar'] = np.zeros(y.shape[0])
     return params   
 
 def exp(A, y):
