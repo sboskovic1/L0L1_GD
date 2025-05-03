@@ -2,7 +2,7 @@ import numpy as np
 
 # For normalized GD with L0-L1 smoothness. Duh
 def normalized_gd(f, g, x0, xstar, l0, l1, epsilon, iters):
-    print("running normalized gradient descent")
+    # print("running normalized gradient descent")
     error = []
     x = x0
     error.append((0, np.linalg.norm(x - xstar)))

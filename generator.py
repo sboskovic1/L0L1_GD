@@ -31,38 +31,37 @@ def norm4(A, y):
     params['L0'] = 4
     params['L1'] = 3
     params['xstar'] = np.linalg.lstsq(A, y, rcond=None)[0]
-    return params    
+    return params   
 
 def exp(A, y):
     params = {}
-    params['f'] = lambda x: np.exp(y.T @ x) - y.T @ A @ x
-    params['g'] = lambda x: np.exp(y.T @ x) * y - A.T @ y
+    params['f'] = lambda x: np.exp(y.T @ x) - .5 * y.T @ x
+    params['g'] = lambda x: np.exp(y.T @ x) * y - .5 * y
     params['gnorm'] = lambda x: np.linalg.norm(params['g'](x))
     params['x0'] = np.zeros(y.shape[0])
     params['L'] = max(params['gnorm'](params['x0']), params['gnorm'](params['x0'] * -1))
-    params['L0'] = 0
+    params['L0'] = np.linalg.norm(y)**2 / 2
     params['L1'] = np.linalg.norm(y)
     params['xstar'] = minimize(params['f'], x0=np.zeros(y.shape[0])).x
-    return params
+    return params 
+
+# def exp(A, y):
+#     params = {}
+#     params['f'] = lambda x: np.exp(y.T @ x) - y.T @ A @ x
+#     params['g'] = lambda x: np.exp(y.T @ x) * y - A.T @ y
+#     params['gnorm'] = lambda x: np.linalg.norm(params['g'](x))
+#     params['x0'] = np.zeros(y.shape[0])
+#     params['L'] = max(params['gnorm'](params['x0']), params['gnorm'](params['x0'] * -1))
+#     params['L0'] = 0
+#     params['L1'] = np.linalg.norm(y)
+#     params['xstar'] = minimize(params['f'], x0=np.zeros(y.shape[0])).x
+#     return params
 
 # Don't know if this can even be optimized
 def logexp1(A, y):
     params = {}
     params['f'] = lambda x: np.log(1 + np.exp(y.T @ x))
     return params
-
-
-
-
-# def exp1():
-#     params = []
-#     params.append(lambda x: (math.e)**(3 * x) - x)
-#     params.append(lambda x: 3 * (math.e)**(3 * x) - 1)
-#     params.append(1.5)
-#     params.append(-1 * math.log(3) / 3)
-#     params.append(0.1)
-#     params.append(3.1)
-#     return params
 
 def main():
     n = 3

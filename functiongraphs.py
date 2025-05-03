@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import functions
-import generator as g
+import new_experiments.generator as g
 import numpy as np
 
 def main():

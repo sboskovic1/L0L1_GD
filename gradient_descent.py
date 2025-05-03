@@ -3,7 +3,7 @@ import numpy as np
 tolerance = 2
 
 def gd(f, g, x0, xstar, l, epsilon, iters):
-    print("running GD")
+    # print("running GD")
     error = []
     x = x0
     error.append((0, np.linalg.norm(x - xstar)))
