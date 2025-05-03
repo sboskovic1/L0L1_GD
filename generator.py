@@ -2,11 +2,11 @@ import numpy as np
 from scipy.optimize import minimize
 
 def genA(n):
-    mat = -5 + 15 * np.random.rand(n, n)
+    mat = -.5 + np.random.rand(n, n)
     return mat
 
 def genY(n):
-    vec = -5 + 10 * np.random.rand(n, 1)
+    vec = -.5 + np.random.rand(n, 1)
     return vec
 
 def norm2(A, y):
@@ -58,15 +58,14 @@ def exp_inner(a):
 
 def norm4(A, y, x0=None):
     params = {}
-    params['f'] = lambda x: np.linalg.norm(x)**4
-    params['g'] = lambda x: 4 * np.linalg.norm(x)**2 * x
+    params['f'] = lambda x: np.linalg.norm(x - y)**4
+    params['g'] = lambda x: 4 * np.linalg.norm(x - y)**2 * (x - y)
     params['gnorm'] = lambda x: np.linalg.norm(params['g'](x))
     params['x0'] = np.zeros(y.shape[0]) if x0 is None else x0
-    print("x0:", params['x0'])
-    params['L'] = max(params['gnorm'](params['x0']), params['gnorm'](params['x0'] * -1))
-    params['L0'] = 12
+    params['L'] = max(params['gnorm'](y), params['gnorm'](y * -1))
+    params['L0'] = 4
     params['L1'] = 3
-    params['xstar'] = np.zeros(y.shape[0])
+    params['xstar'] = y
     return params   
 
 def exp(A, y):

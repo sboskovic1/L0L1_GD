@@ -3,9 +3,7 @@ import numpy as np
 tolerance = 2
 
 def gd(f, g, x0, xstar, l, epsilon, iters):
-    print("running GD")
-    print(l)
-    print(x0)
+    # print("running GD")
     error = []
     x = x0
     error.append((0, np.linalg.norm(x - xstar)))
@@ -23,7 +21,7 @@ def gd(f, g, x0, xstar, l, epsilon, iters):
                 break
         else:
             diverge = 0
-        error.append((i, np.linalg.norm(x - xstar)))
+        error.append((i, np.linalg.norm(f(x) - f(xstar))))
         i += 1
     if diverged:
         error[0] = ("diverged", i)

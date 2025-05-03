@@ -3,9 +3,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import generator as gen
 
-def experiment(func, runs=10, n=100):
+def experiment(func, runs=10, n=100, iters=10000):
     epsilon = 10e-6
-    iters = 30000
     data = {}
     data['gd'] = []
     data['ngd'] = []
@@ -17,17 +16,11 @@ def experiment(func, runs=10, n=100):
     safety = 100
     for i in range(runs):
         print("iteration: ", i)
-        # next = r.run_function(gen.norm2, epsilon, iters, n)
-        # next = r.run_function(gen.norm4, epsilon, iters, n)
         next = r.run_function(func, epsilon, iters, n, safety)
         if (next['gd'][0][0][0] == "diverged"):
             div.append(next['gd'][0][0][1])
         else:
             data['gd'].append(next['gd'])
-        # if (next['gd_safe'][0][0][0] == "diverged"):
-        #     div_safe.append(next['gd_safe'][0][0][1])
-        # else:
-        #     data['gd_safe'].append(next['gd_safe'])
         if (next['gd_safe'][0][0][0] == "diverged"):
             div_safe.append(next['gd_safe'][0][0][1])
         else:
@@ -46,13 +39,13 @@ def experiment(func, runs=10, n=100):
                     index_values[idx].append(val)
         averages[key] = [sum(index_values[idx]) / len(index_values[idx]) 
                         for idx in sorted(index_values.keys())]
-    # plt.yscale('log')
-    # plt.xscale('log')
-    # plt.plot(averages['gd'], label="Gradient Descent")
-    # plt.plot(averages['ngd'], label="Normalized Gradient Descent")
+    plt.yscale('log')
+    plt.xscale('log')
+    plt.plot(averages['gd'], label="Gradient Descent")
+    plt.plot(averages['ngd'], label="Normalized Gradient Descent")
     plt.plot(averages['sc'], label="Smoothed Clipping")
-    # plt.plot(averages['gd_safe'], label="GD with higher L")
-    # plt.plot(averages['agd'], label="Adaptive GD")
+    plt.plot(averages['gd_safe'], label="GD with higher L")
+    plt.plot(averages['agd'], label="Adaptive GD")
     plt.legend(fontsize=8)
     plt.xlabel("Iterations")
     plt.ylabel("Error")
@@ -63,7 +56,7 @@ def experiment(func, runs=10, n=100):
     return
 
 def main():
-    experiment(gen.norm4, 1, 5)
+    experiment(gen.norm2, 1, 10, 50000)
     return
 
 if __name__ == "__main__":

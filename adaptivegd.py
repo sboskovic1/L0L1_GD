@@ -37,7 +37,7 @@ def adgd(grad_f, x0, lambda0, gamma, max_iter, f=None, x_star=None, tol=10e-10):
     if x_star is not None:
         x1_m_xs_norm_sq = np.linalg.norm(x_curr - x_star)**2
         x1_m_x0_norm_sq = np.linalg.norm(x_curr - x_prev)**2
-        error.append((0, np.linalg.norm(x_curr - x_star)))
+        error.append((0, np.linalg.norm(f(x_curr) - f(x_star))))
         if f is not None:
              f0_m_fs = f_prev - f_star
         else:
@@ -61,7 +61,7 @@ def adgd(grad_f, x0, lambda0, gamma, max_iter, f=None, x_star=None, tol=10e-10):
         x_next = x_curr - lambda_curr * grad_x_curr
 
         if x_star is not None:
-            error.append((k, np.linalg.norm(x_next - x_star)))
+            error.append((k, np.linalg.norm(f(x_next) - f(x_star))))
 
         if lambda_prev != 0:
             theta_curr = lambda_curr / lambda_prev

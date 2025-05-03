@@ -18,6 +18,6 @@ def normalized_gd(f, g, x0, xstar, l0, l1, epsilon, iters):
         # Normalize the gradient: grad / ||grad||
         normalized_grad = grad / np.linalg.norm(grad)
         x = x - eta * normalized_grad
-        error.append((i, np.linalg.norm(x - xstar)))
+        error.append((i, np.linalg.norm(f(x) - f(xstar))))
         i += 1
     return error
