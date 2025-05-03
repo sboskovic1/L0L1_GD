@@ -10,16 +10,9 @@ def smoothed_clipping(f, g, x0, xstar, l0, l1, epsilon, iters):
     error.append((0, np.linalg.norm(x - xstar)))
     eta = nu / 2
     i = 1
-    # print("x: ", x)
-    # print("xstar: ", xstar)
     while i < iters and error[-1][1] > epsilon:
         grad = g(x)
         x = x - (eta / (l0 + l1 * np.linalg.norm(grad))) * grad
         error.append((i, np.linalg.norm(f(x) - f(xstar))))
         i += 1
-    # print("x: ", x)
-    # print("f(x): ", f(x))
-    # print("f(xstar): ", f(xstar))
-    # print("norm(xstar): ", np.linalg.norm(xstar))
-    # print("error: ", error[-1][1])
     return error

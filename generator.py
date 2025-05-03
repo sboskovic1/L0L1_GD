@@ -2,11 +2,11 @@ import numpy as np
 from scipy.optimize import minimize
 
 def genA(n):
-    mat = -5 + 10 * np.random.rand(n, n)
+    mat = -2 + 4 * np.random.rand(n, n)
     return mat
 
 def genY(n):
-    vec = -5 + 10 * np.random.rand(n, 1)
+    vec = -2 + 4 * np.random.rand(n, 1)
     return vec
 
 def norm2(A, y):

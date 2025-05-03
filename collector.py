@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import generator as gen
 
-def experiment(func, runs=10, n=100, iters=10000, epsilon=10e-6):
+def experiment(func, runs=10, n=100, iters=10000, epsilon=10e-6, tolerance=1):
     data = {}
     data['gd'] = []
     data['ngd'] = []
@@ -20,23 +20,23 @@ def experiment(func, runs=10, n=100, iters=10000, epsilon=10e-6):
     for i in range(runs):
         print("iteration: ", i)
         next = r.run_function(func, epsilon, iters, n, safety)
-        if (next['gd'][0][-1][1] < epsilon):
+        if (next['gd'][0][-1][1] < epsilon * tolerance):
             data['gd'].append(next['gd'])
         else:
             div['gd'] += 1
-        if (next['gd_safe'][0][-1][1] < epsilon):
+        if (next['gd_safe'][0][-1][1] < epsilon * tolerance * 1000):
             data['gd_safe'].append(next['gd_safe'])
         else:
             div['safe'] += 1
-        if (next['ngd'][0][-1][1] < epsilon):
+        if (next['ngd'][0][-1][1] < epsilon * tolerance):
             data['ngd'].append(next['ngd'])
         else:
             div['ngd'] += 1
-        if (next['sc'][0][-1][1] < epsilon):
+        if (next['sc'][0][-1][1] < epsilon * tolerance):
             data['sc'].append(next['sc'])
         else:
             div['sc'] += 1
-        if (next['agd'][0][-1][1] < epsilon):
+        if (next['agd'][0][-1][1] < epsilon * tolerance):
             data['agd'].append(next['agd'])
         else:
             div['agd'] += 1
@@ -67,7 +67,7 @@ def experiment(func, runs=10, n=100, iters=10000, epsilon=10e-6):
     return
 
 def main():
-    experiment(gen.exp, 20, 10, 10000, 10e-10)
+    experiment(gen.norm2, 20, 5, 10000, 10e-6)
     return
 
 if __name__ == "__main__":
