@@ -6,7 +6,7 @@ import generator as gen
 def experiment(func, runs=10):
     epsilon = 10e-6
     iters = 1000
-    n = 100
+    n = 10
     data = {}
     data['gd'] = []
     data['ngd'] = []
@@ -51,7 +51,7 @@ def experiment(func, runs=10):
     plt.plot(averages['ngd'], label="Normalized Gradient Descent")
     plt.plot(averages['sc'], label="Smoothed Clipping")
     plt.plot(averages['gd_safe'], label="GD with higher L")
-    plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0)
+    plt.legend(fontsize=8)
     plt.xlabel("Iterations")
     plt.ylabel("Error")
     plt.title("Comparison of methods")
@@ -61,7 +61,7 @@ def experiment(func, runs=10):
     return
 
 def main():
-    experiment(gen.exp, 100)
+    experiment(gen.exp, 10)
     return
 
 if __name__ == "__main__":
