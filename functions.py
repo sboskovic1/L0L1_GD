@@ -24,6 +24,11 @@ def exp1():
     params.append(3.1)
     return params
 
+def upperboundL0L1(params):
+    params = []
+    params.append(lambda x: max((params[4] *(params[3] - params[2])**2) / x, params[3]**2 * (params[3] - params[2])**2))
+    return params
+
 def cquad_func():
     params = []
     params.append(lambda x: x**2)

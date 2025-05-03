@@ -4,10 +4,12 @@ import matplotlib.pyplot as plt
 import smooth_clipping as sc
 import gradient_descent as gd
 import normalized_gd as ngd
+import functiongraphs as fg
 
 def main():
-    # stefan()
-    cyrus()
+    stefan()
+    # cyrus()
+    # s2()
 
 def stefan():
     print("starting experiment")
@@ -27,6 +29,20 @@ def stefan():
     plt.xlabel("Iterations")
     plt.ylabel("Error")
     plt.show()
+
+def s2():
+    print("starting experiment")
+    data = []
+    data.append(functions.exp1())
+    epsilon = 10e-6
+    iters = 1000
+    results = runl0l1(sc.smoothed_clipping, data, epsilon, iters)
+    plt.plot([x[0] for x in results[0]], [x[1] for x in results[0]], label="smoothed clipping")
+    print("final error for smoothed: ", results[0][-1][1], " in ", results[0][-1][0], " iterations")
+    fg.plot(functions.upperboundL0L1(functions.exp1()), 0, 150, .000001, "Upper bound for smoothed clipping")
+    plt.legend()
+    plt.show()    
+
 
 def runl0l1(method, data, epsilon, iters):
     results = []
